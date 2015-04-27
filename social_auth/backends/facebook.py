@@ -39,8 +39,8 @@ from social_auth.exceptions import AuthException, AuthCanceled, AuthFailed,\
 
 
 # Facebook configuration
-FACEBOOK_ME = 'https://graph.facebook.com/me?'
-ACCESS_TOKEN = 'https://graph.facebook.com/oauth/access_token?'
+FACEBOOK_ME = 'https://graph.facebook.com/v2.3/me'
+ACCESS_TOKEN = 'https://graph.facebook.com/v2.3/oauth/access_token'
 USE_APP_AUTH = setting('FACEBOOK_APP_AUTH', False)
 LOCAL_HTML = setting('FACEBOOK_LOCAL_HTML', 'facebook.html')
 APP_NAMESPACE = setting('FACEBOOK_APP_NAMESPACE', None)
@@ -48,7 +48,7 @@ REDIRECT_HTML = """
 <script type="text/javascript">
     var domain = 'https://apps.facebook.com/',
         redirectURI = domain + '{{ FACEBOOK_APP_NAMESPACE }}' + '/';
-    window.top.location = 'https://www.facebook.com/dialog/oauth/' +
+    window.top.location = 'https://www.facebook.com/v2.3/dialog/oauth' +
     '?client_id={{ FACEBOOK_APP_ID }}' +
     '&redirect_uri=' + encodeURIComponent(redirectURI) +
     '&scope={{ FACEBOOK_EXTENDED_PERMISSIONS }}';
@@ -79,8 +79,8 @@ class FacebookAuth(BaseOAuth2):
     AUTH_BACKEND = FacebookBackend
     RESPONSE_TYPE = None
     SCOPE_SEPARATOR = ','
-    AUTHORIZATION_URL = 'https://www.facebook.com/dialog/oauth'
-    REVOKE_TOKEN_URL = 'https://graph.facebook.com/{uid}/permissions'
+    AUTHORIZATION_URL = 'https://www.facebook.com/v2.3/dialog/oauth'
+    REVOKE_TOKEN_URL = 'https://graph.facebook.com/v2.3/{uid}/permissions'
     REVOKE_TOKEN_METHOD = 'DELETE'
     ACCESS_TOKEN_URL = ACCESS_TOKEN
     SETTINGS_KEY_NAME = 'FACEBOOK_APP_ID'
