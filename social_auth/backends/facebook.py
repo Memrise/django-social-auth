@@ -39,8 +39,8 @@ from social_auth.exceptions import AuthException, AuthCanceled, AuthFailed,\
 
 
 # Facebook configuration
-FACEBOOK_ME = 'https://graph.facebook.com/v2.3/me'
-ACCESS_TOKEN = 'https://graph.facebook.com/v2.3/oauth/access_token'
+FACEBOOK_ME = 'https://graph.facebook.com/v2.3/me?'
+ACCESS_TOKEN = 'https://graph.facebook.com/v2.3/oauth/access_token?'
 USE_APP_AUTH = setting('FACEBOOK_APP_AUTH', False)
 LOCAL_HTML = setting('FACEBOOK_LOCAL_HTML', 'facebook.html')
 APP_NAMESPACE = setting('FACEBOOK_APP_NAMESPACE', None)
@@ -79,7 +79,7 @@ class FacebookAuth(BaseOAuth2):
     AUTH_BACKEND = FacebookBackend
     RESPONSE_TYPE = None
     SCOPE_SEPARATOR = ','
-    AUTHORIZATION_URL = 'https://www.facebook.com/v2.3/dialog/oauth'
+    AUTHORIZATION_URL = 'https://www.facebook.com/dialog/oauth'
     REVOKE_TOKEN_URL = 'https://graph.facebook.com/v2.3/{uid}/permissions'
     REVOKE_TOKEN_METHOD = 'DELETE'
     ACCESS_TOKEN_URL = ACCESS_TOKEN
@@ -94,12 +94,10 @@ class FacebookAuth(BaseOAuth2):
 
         returns: dict or None
         """
-
         data = None
         params = backend_setting(self, self.EXTRA_PARAMS_VAR_NAME, {})
         params['access_token'] = access_token
         url = FACEBOOK_ME + urlencode(params)
-
         try:
             response = dsa_urlopen(url)
             data = simplejson.load(response)
@@ -124,13 +122,12 @@ class FacebookAuth(BaseOAuth2):
 
         if 'code' in self.data:
             state = self.validate_state()
+            key, secret = self.get_key_and_secret()
+            redirect_uri = self.get_redirect_uri(state)
             url = ACCESS_TOKEN + urlencode({
-                'client_id': backend_setting(self, self.SETTINGS_KEY_NAME),
-                'redirect_uri': self.get_redirect_uri(state),
-                'client_secret': backend_setting(
-                    self,
-                    self.SETTINGS_SECRET_NAME
-                ),
+                'client_id': key,
+                'redirect_uri': redirect_uri,
+                'client_secret': secret,
                 'code': self.data['code']
             })
             try:
@@ -139,12 +136,10 @@ class FacebookAuth(BaseOAuth2):
                 raise AuthFailed(self, 'There was an error authenticating '
                                        'the app')
 
-            response = payload.read()
-            parsed_response = cgi.parse_qs(response)
-
-            access_token = parsed_response['access_token'][0]
-            if 'expires' in parsed_response:
-                expires = parsed_response['expires'][0]
+            response = simplejson.loads(payload.read())
+            access_token = response['access_token']
+            if 'expires_in' in response:
+                expires = response['expires_in']
 
         if 'signed_request' in self.data:
             response = load_signed_request(
