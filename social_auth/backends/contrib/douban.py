@@ -9,7 +9,7 @@ values.
 By default account id is stored in extra_data field, check OAuthBackend
 class for details on how to extend it.
 """
-from urllib2 import Request
+from urllib.request import Request
 
 try:
     import json as simplejson

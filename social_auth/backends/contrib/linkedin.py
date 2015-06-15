@@ -7,8 +7,8 @@ No extra configurations are needed to make this work.
 from xml.etree import ElementTree
 from xml.parsers.expat import ExpatError
 
-from urllib import urlencode
-from urllib2 import Request
+from urllib.parse import urlencode
+from urllib.request import Request
 from oauth2 import Token
 
 try:

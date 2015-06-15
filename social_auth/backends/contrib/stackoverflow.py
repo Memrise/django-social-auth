@@ -13,11 +13,12 @@ to request.
 By default account id and token expiration time are stored in extra_data
 field, check OAuthBackend class for details on how to extend it.
 """
-from urllib import urlencode
-from urllib2 import Request, HTTPError
-from urlparse import parse_qsl
+from urllib.parse import urlencode
+from urllib.request import Request
+from urllib.error import HTTPError
+from urllib.parse import parse_qsl
 from gzip import GzipFile
-from StringIO import StringIO
+from io import StringIO
 
 try:
     import json as simplejson
@@ -78,7 +79,7 @@ class StackoverflowAuth(BaseOAuth2):
 
         try:
             response = dict(parse_qsl(dsa_urlopen(request).read()))
-        except HTTPError, e:
+        except HTTPError as e:
             if e.code == 400:
                 raise AuthCanceled(self)
             else:

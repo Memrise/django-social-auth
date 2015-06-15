@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django Social Auth'
-copyright = u'2011, Matías Aguirre'
+project = 'Django Social Auth'
+copyright = '2011, Matías Aguirre'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -180,8 +180,8 @@ htmlhelp_basename = 'DjangoSocialAuthdoc'
 # (source start file, target name, title, author, documentclass
 # [howto/manual]).
 latex_documents = [
-  ('index', 'DjangoSocialAuth.tex', u'Django Social Auth Documentation',
-   u'Matías Aguirre', 'manual'),
+  ('index', 'DjangoSocialAuth.tex', 'Django Social Auth Documentation',
+   'Matías Aguirre', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -213,8 +213,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'djangosocialauth', u'Django Social Auth Documentation',
-     [u'Matías Aguirre'], 1)
+    ('index', 'djangosocialauth', 'Django Social Auth Documentation',
+     ['Matías Aguirre'], 1)
 ]
 
 

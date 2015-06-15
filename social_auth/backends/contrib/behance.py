@@ -44,7 +44,7 @@ class BehanceBackend(OAuthBackend):
         # Pull up the embedded user attributes so they can be found as extra
         # data. See the example token response for possible attributes:
         # http://www.behance.net/dev/authentication#step-by-step
-        all_data = dict((name, value) for name, value in response.iteritems())
+        all_data = dict((name, value) for name, value in response.items())
         all_data.update(response['user'])
         return super(BehanceBackend, self).extra_data(user, uid, all_data,
                 details)

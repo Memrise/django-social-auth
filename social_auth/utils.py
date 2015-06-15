@@ -1,10 +1,10 @@
 import time
 import random
 import hashlib
-import urlparse
-import urllib
+import urllib.parse
+import urllib.request, urllib.parse, urllib.error
 import logging
-from urllib2 import urlopen
+from urllib.request import urlopen
 from cgi import parse_qsl
 
 from collections import defaultdict
@@ -109,7 +109,7 @@ def sanitize_redirect(host, redirect_to):
 
     # Heavier security check, don't allow redirection to a different host.
     try:
-        netloc = urlparse.urlparse(redirect_to)[1]
+        netloc = urllib.parse.urlparse(redirect_to)[1]
     except TypeError:  # not valid redirect_to value
         return None
 
@@ -207,10 +207,10 @@ def clean_partial_pipeline(request):
 def url_add_parameters(url, params):
     """Adds parameters to URL, parameter will be repeated if already present"""
     if params:
-        fragments = list(urlparse.urlparse(url))
-        fragments[4] = urllib.urlencode(parse_qsl(fragments[4]) +
-                                        params.items())
-        url = urlparse.urlunparse(fragments)
+        fragments = list(urllib.parse.urlparse(url))
+        fragments[4] = urllib.parse.urlencode(parse_qsl(fragments[4]) +
+                                        list(params.items()))
+        url = urllib.parse.urlunparse(fragments)
     return url
 
 

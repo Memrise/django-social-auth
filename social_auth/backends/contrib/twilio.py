@@ -1,7 +1,7 @@
 """
 Twilio support
 """
-from urllib import urlencode
+from urllib.parse import urlencode
 from re import sub
 
 from django.contrib.auth import authenticate
@@ -43,7 +43,7 @@ class TwilioAuth(BaseAuth):
         """Return authorization redirect url."""
         key = self.connect_api_key()
         callback = self.request.build_absolute_uri(self.redirect)
-        callback = sub(r'^https', u'http', callback)
+        callback = sub(r'^https', 'http', callback)
         query = urlencode({'cb': callback})
         return '%s%s?%s' % (TWILIO_AUTHORIZATION_URL, key, query)
 

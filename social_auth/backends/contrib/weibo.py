@@ -12,7 +12,7 @@ correctly.
 By default account id,profile_image_url,gender are stored in extra_data field,
 check OAuthBackend class for details on how to extend it.
 """
-from urllib import urlencode
+from urllib.parse import urlencode
 
 try:
     import json as simplejson

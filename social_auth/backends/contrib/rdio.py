@@ -1,4 +1,4 @@
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 from oauth2 import Request as OAuthRequest, SignatureMethod_HMAC_SHA1
 
@@ -113,7 +113,7 @@ class RdioOAuth2(BaseOAuth2):
             'extras': 'username,displayName,streamRegion',
             'access_token': access_token,
         }
-        response = dsa_urlopen(self.RDIO_API_BASE, urllib.urlencode(params))
+        response = dsa_urlopen(self.RDIO_API_BASE, urllib.parse.urlencode(params))
         try:
             return simplejson.load(response)['result']
         except ValueError:

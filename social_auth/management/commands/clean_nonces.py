@@ -10,11 +10,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from social_auth.models import Nonce
-        print 'Clearing expired Nonce instances'
+        print('Clearing expired Nonce instances')
         qs = Nonce.objects.filter(timestamp__lt=(time.time() + SKEW))
         count = qs.count()
         if count > 0:
-            print 'Cleaning %s Nonces' % qs.count()
+            print('Cleaning %s Nonces' % qs.count())
             qs.delete()
         else:
-            print 'No Nonces to remove'
+            print('No Nonces to remove')

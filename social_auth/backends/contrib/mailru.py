@@ -19,9 +19,9 @@ except ImportError:
         from django.utils import simplejson
 
 from django.conf import settings
-
-from urllib import urlencode, unquote
-from urllib2 import Request, HTTPError
+from urllib.parse import urlencode, unquote
+from urllib.request import Request
+from urllib.error import HTTPError
 from hashlib import md5
 
 from social_auth.backends import OAuthBackend, BaseOAuth2

@@ -6,7 +6,7 @@ No extra configurations are needed to make this work.
 import oauth2 as oauth
 from oauth2 import Token
 
-from urllib import urlencode
+from urllib.parse import urlencode
 
 try:
     import json as simplejson

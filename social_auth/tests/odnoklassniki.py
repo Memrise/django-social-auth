@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from __future__ import unicode_literals
+
 from unittest import skipUnless
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -76,11 +76,11 @@ class BaseOdnoklassnikiAppTest(OdnoklassnikiLiveTest):
 class OdnoklassnikiAppTest(BaseOdnoklassnikiAppTest):
     def test_auth(self):
         self.login_into_sandbox()
-        self.assertEquals(UserSocialAuth.objects.count(), 1)
+        self.assertEqual(UserSocialAuth.objects.count(), 1)
         social_auth = UserSocialAuth.objects.get()
         user = social_auth.user
         full_name = '{0} {1}'.format(user.first_name, user.last_name) 
-        self.assertEquals(full_name, self.odnoklassniki_name)
+        self.assertEqual(full_name, self.odnoklassniki_name)
         self.assertTrue('apiconnection' in social_auth.extra_data)
         self.assertTrue('api_server' in social_auth.extra_data)
         
@@ -88,11 +88,11 @@ class OdnoklassnikiAppTestExtraData(BaseOdnoklassnikiAppTest):
     @override_settings(ODNOKLASSNIKI_APP_EXTRA_USER_DATA_LIST = ('gender', 'birthday', 'age'))        
     def test_extra_data(self):
         self.login_into_sandbox()
-        self.assertEquals(UserSocialAuth.objects.count(), 1)
+        self.assertEqual(UserSocialAuth.objects.count(), 1)
         social_user = UserSocialAuth.objects.get()
         user = social_user.user
         full_name = '{0} {1}'.format(user.first_name, user.last_name) 
-        self.assertEquals(full_name, self.odnoklassniki_name)
+        self.assertEqual(full_name, self.odnoklassniki_name)
         self.assertTrue(all([field in social_user.extra_data for field in ('gender', 'birthday', 'age')]))
 
 class OdnoklassnikiOAuthTest(OdnoklassnikiLiveTest):
@@ -147,8 +147,8 @@ class OdnoklassnikiOAuthTest(OdnoklassnikiLiveTest):
 
     def test_auth(self):
         self.login_into_odnoklassniki()
-        self.assertEquals(UserSocialAuth.objects.count(), 1)
+        self.assertEqual(UserSocialAuth.objects.count(), 1)
         user = UserSocialAuth.objects.get().user
         full_name = '{0} {1}'.format(user.first_name, user.last_name) 
-        self.assertEquals(full_name, self.odnoklassniki_name)
+        self.assertEqual(full_name, self.odnoklassniki_name)
 

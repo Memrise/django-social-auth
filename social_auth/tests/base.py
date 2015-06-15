@@ -1,8 +1,8 @@
 import re
-import urllib2
-import cookielib
-import urllib
-import urlparse
+import urllib.request, urllib.error, urllib.parse
+import http.cookiejar
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 import unittest
 from sgmllib import SGMLParser
 from django.conf import settings
@@ -67,30 +67,30 @@ class SocialAuthTestsCase(unittest.TestCase):
     def get_content(self, url, data=None, use_cookies=False):
         """Return content for given url, if data is not None, then a POST
         request will be issued, otherwise GET will be used"""
-        data = data and urllib.urlencode(data, doseq=True) or data
-        request = urllib2.Request(url)
-        agent = urllib2.build_opener()
+        data = data and urllib.parse.urlencode(data, doseq=True) or data
+        request = urllib.request.Request(url)
+        agent = urllib.request.build_opener()
 
         if use_cookies:
-            agent.add_handler(urllib2.HTTPCookieProcessor(self.get_jar()))
+            agent.add_handler(urllib.request.HTTPCookieProcessor(self.get_jar()))
         request.add_header('User-Agent', USER_AGENT)
         return ''.join(agent.open(request, data=data).readlines())
 
     def get_redirect(self, url, data=None, use_cookies=False):
         """Return content for given url, if data is not None, then a POST
         request will be issued, otherwise GET will be used"""
-        data = data and urllib.urlencode(data, doseq=True) or data
-        request = urllib2.Request(url)
-        agent = urllib2.build_opener(RedirectHandler())
+        data = data and urllib.parse.urlencode(data, doseq=True) or data
+        request = urllib.request.Request(url)
+        agent = urllib.request.build_opener(RedirectHandler())
 
         if use_cookies:
-            agent.add_handler(urllib2.HTTPCookieProcessor(self.get_jar()))
+            agent.add_handler(urllib.request.HTTPCookieProcessor(self.get_jar()))
         request.add_header('User-Agent', USER_AGENT)
         return agent.open(request, data=data)
 
     def get_jar(self):
         if not self.jar:
-            self.jar = cookielib.CookieJar()
+            self.jar = http.cookiejar.CookieJar()
         return self.jar
 
     def reverse(self, name, backend):
@@ -99,8 +99,8 @@ class SocialAuthTestsCase(unittest.TestCase):
 
     def make_relative(self, value):
         """Converst URL to relative, useful for server responses"""
-        parsed = urlparse.urlparse(value)
-        return urlparse.urlunparse(('', '', parsed.path, parsed.params,
+        parsed = urllib.parse.urlparse(value)
+        return urllib.parse.urlunparse(('', '', parsed.path, parsed.params,
                                     parsed.query, parsed.fragment))
 
 
@@ -170,6 +170,6 @@ class RefreshParser(CustomParser):
             self.value = REFRESH_RE.sub('', attrs.get('content')).strip("'")
 
 
-class RedirectHandler(urllib2.HTTPRedirectHandler):
+class RedirectHandler(urllib.request.HTTPRedirectHandler):
     def http_error_302(self, req, fp, code, msg, headers):
         return fp

@@ -1,8 +1,8 @@
 """
 Mixcloud OAuth2 support
 """
-from urllib import urlencode
-from urllib2 import Request
+from urllib.parse import urlencode
+from urllib.request import Request
 
 try:
     import json as simplejson

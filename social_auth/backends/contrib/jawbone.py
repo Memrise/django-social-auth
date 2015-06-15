@@ -1,4 +1,4 @@
-from urllib2 import Request, urlopen
+from urllib.request import Request, urlopen
 
 try:
     import json as simplejson

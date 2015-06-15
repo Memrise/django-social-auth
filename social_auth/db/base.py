@@ -18,7 +18,7 @@ class UserSocialAuthMixin(object):
 
     def __unicode__(self):
         """Return associated user unicode representation"""
-        return u'%s - %s' % (unicode(self.user), self.provider.title())
+        return '%s - %s' % (str(self.user), self.provider.title())
 
     def get_backend(self):
         # Make import here to avoid recursive imports :-/
@@ -176,7 +176,7 @@ class UserSocialAuthMixin(object):
 
     @classmethod
     def get_social_auth(cls, provider, uid):
-        if not isinstance(uid, basestring):
+        if not isinstance(uid, str):
             uid = str(uid)
         try:
             return cls.objects.get(provider=provider, uid=uid)
@@ -189,7 +189,7 @@ class UserSocialAuthMixin(object):
 
     @classmethod
     def create_social_auth(cls, user, uid, provider):
-        if not isinstance(uid, basestring):
+        if not isinstance(uid, str):
             uid = str(uid)
         return cls.objects.create(user=user, uid=uid, provider=provider)
 

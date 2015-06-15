@@ -9,7 +9,7 @@ settings.py should include the following:
 
 """
 import json
-from urllib import urlencode
+from urllib.parse import urlencode
 from social_auth.backends import BaseOAuth2, OAuthBackend
 from social_auth.utils import dsa_urlopen
 

@@ -14,8 +14,8 @@ except ImportError:
     except ImportError:
         from django.utils import simplejson
 
-from urllib import urlencode
-from urlparse import urlparse, urlsplit
+from urllib.parse import urlencode
+from urllib.parse import urlparse, urlsplit
 
 from social_auth.backends import OpenIDBackend, OpenIdAuth, OAuthBackend, \
                                  BaseOAuth2

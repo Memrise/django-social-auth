@@ -11,7 +11,7 @@ Then update your settings values using registration information
 ref:
 https://github.com/gkmngrgn/django-tumblr-auth
 """
-from urllib import urlopen
+from urllib.request import urlopen
 
 from oauth2 import Request as OAuthRequest, Token as OAuthToken, \
                    SignatureMethod_HMAC_SHA1

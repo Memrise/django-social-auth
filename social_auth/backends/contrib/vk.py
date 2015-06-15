@@ -15,7 +15,7 @@ except ImportError:
 
 from django.contrib.auth import authenticate
 
-from urllib import urlencode
+from urllib.parse import urlencode
 from hashlib import md5
 from time import time
 
@@ -54,7 +54,7 @@ class VKOpenAPIBackend(SocialAuthBackend):
     def get_user_details(self, response):
         """Return user details from VK request"""
         nickname = response.get('nickname') or response['id']
-        if isinstance(nickname, (list, tuple, )):
+        if isinstance(nickname, (list, tuple )):
             nickname = nickname[0]
         return {
             'username': nickname,

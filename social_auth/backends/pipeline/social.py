@@ -32,7 +32,7 @@ def associate_user(backend, user, uid, social_user=None, *args, **kwargs):
 
     try:
         social = UserSocialAuth.create_social_auth(user, uid, backend.name)
-    except Exception, e:
+    except Exception as e:
         if not SOCIAL_AUTH_MODELS_MODULE.is_integrity_error(e):
             raise
         # Protect for possible race condition, those bastard with FTL

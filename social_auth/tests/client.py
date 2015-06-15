@@ -1,4 +1,4 @@
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
 try:
     import json as simplejson
@@ -84,7 +84,7 @@ class SocialClient(Client):
         token = 'dummyToken'
         backends = {
             'facebook': (
-                urllib.urlencode({
+                urllib.parse.urlencode({
                     'access_token': token,
                     'expires': 3600,
                 }),
@@ -101,7 +101,7 @@ class SocialClient(Client):
             ),
 
             'linkedin': (
-                urllib.urlencode({
+                urllib.parse.urlencode({
                     'oauth_token': token,
                     'oauth_token_secret': token,
                     'oauth_callback_confirmed': 'true',
@@ -109,7 +109,7 @@ class SocialClient(Client):
                         'https://api.linkedin.com/uas/oauth/authorize'),
                     'oauth_expires_in': 3600,
                 }),
-                urllib.urlencode({
+                urllib.parse.urlencode({
                     'oauth_token': token,
                     'oauth_token_secret': token,
                     'oauth_expires_in': 3600,

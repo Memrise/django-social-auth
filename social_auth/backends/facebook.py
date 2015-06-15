@@ -16,8 +16,8 @@ import base64
 import hmac
 import hashlib
 import time
-from urllib import urlencode
-from urllib2 import HTTPError
+from urllib.parse import urlencode
+from urllib.error import HTTPError
 
 try:
     import json as simplejson
@@ -166,7 +166,7 @@ class FacebookAuth(BaseOAuth2):
     @classmethod
     def process_refresh_token_response(cls, response):
         return dict((key, val[0])
-                        for key, val in cgi.parse_qs(response).iteritems())
+                        for key, val in cgi.parse_qs(response).items())
 
     @classmethod
     def refresh_token_params(cls, token):
@@ -216,7 +216,7 @@ class FacebookAuth(BaseOAuth2):
 
 
 def base64_url_decode(data):
-    data = data.encode(u'ascii')
+    data = data.encode('ascii')
     data += '=' * (4 - (len(data) % 4))
     return base64.urlsafe_b64decode(data)
 
@@ -227,7 +227,7 @@ def base64_url_encode(data):
 
 def load_signed_request(signed_request, api_secret=None):
     try:
-        sig, payload = signed_request.split(u'.', 1)
+        sig, payload = signed_request.split('.', 1)
         sig = base64_url_decode(sig)
         data = simplejson.loads(base64_url_decode(payload))
 
@@ -237,7 +237,7 @@ def load_signed_request(signed_request, api_secret=None):
 
         # allow the signed_request to function for upto 1 day
         if sig == expected_sig and \
-           data[u'issued_at'] > (time.time() - 86400):
+           data['issued_at'] > (time.time() - 86400):
             return data
     except ValueError:
         pass  # ignore if can't split on dot

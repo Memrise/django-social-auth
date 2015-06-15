@@ -1,1 +1,1 @@
-from test_core import BackendsTest
+from .test_core import BackendsTest

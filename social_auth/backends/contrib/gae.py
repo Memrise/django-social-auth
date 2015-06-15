@@ -7,7 +7,7 @@ of Google's App Engine PaaS.
 This backend directly uses Google's User API that
 is available on the App Engine platform.
 """
-from __future__ import absolute_import
+
 
 from google.appengine.api import users
 

@@ -14,7 +14,7 @@ References:
 Throws:
 AuthUnknownError - if user data retrieval fails
 """
-from urllib import urlencode
+from urllib.parse import urlencode
 
 try:
     import json as simplejson

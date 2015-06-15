@@ -1,4 +1,4 @@
-from urllib import urlencode
+from urllib.parse import urlencode
 try:
     import json as simplejson
 except ImportError:

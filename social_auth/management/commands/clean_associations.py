@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         from social_auth.models import Association
-        print 'Clearing expired Association instances'
+        print('Clearing expired Association instances')
         timestamp = time.time() + Signatory.SECRET_LIFETIME
         associations = Association.objects.filter(issued__lt=timestamp)
         remove = []
@@ -26,7 +26,7 @@ class Command(BaseCommand):
             if oid.getExpiresIn() == 0:
                 remove.append(assoc.pk)
         if remove:
-            print 'Cleaning %s Associations' % len(remove)
+            print('Cleaning %s Associations' % len(remove))
             Association.filter(pk__in=remove).delete()
         else:
-            print 'No Associations to remove'
+            print('No Associations to remove')

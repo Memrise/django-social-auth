@@ -8,7 +8,7 @@ except ImportError:
 
 from social_auth.backends import BaseOAuth2, OAuthBackend
 from social_auth.utils import dsa_urlopen, backend_setting
-from urllib import urlencode
+from urllib.parse import urlencode
 
 
 DISQUS_SERVER = 'disqus.com'

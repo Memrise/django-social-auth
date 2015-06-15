@@ -1,6 +1,7 @@
 import base64
-from urllib2 import Request, HTTPError
-from urllib import urlencode
+from urllib.request import Request
+from urllib.error import HTTPError
+from urllib.parse import urlencode
 
 try:
     import json as simplejson

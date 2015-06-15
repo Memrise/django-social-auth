@@ -2,8 +2,8 @@
 Yammer OAuth2 support
 """
 import logging
-from urllib import urlencode
-from urlparse import parse_qs
+from urllib.parse import urlencode
+from urllib.parse import parse_qs
 
 try:
     import json as simplejson
@@ -75,7 +75,7 @@ class YammerOAuth2(BaseOAuth2):
 
         try:
             return simplejson.load(dsa_urlopen(url))
-        except Exception, e:
+        except Exception as e:
             logging.exception(e)
         return None
 

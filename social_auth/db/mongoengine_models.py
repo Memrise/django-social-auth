@@ -45,7 +45,7 @@ class UserSocialAuth(Document, UserSocialAuthMixin):
 
     @classmethod
     def create_social_auth(cls, user, uid, provider):
-        if not isinstance(type(uid), basestring):
+        if not isinstance(type(uid), str):
             uid = str(uid)
         return cls.objects.create(user=user, uid=uid, provider=provider)
 

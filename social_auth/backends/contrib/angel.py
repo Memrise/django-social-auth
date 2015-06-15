@@ -10,7 +10,7 @@ Optional scope to include 'email' and/or 'messages' separated by space:
 
 More information on scope can be found at https://angel.co/api/oauth/faq
 """
-from urllib import urlencode
+from urllib.parse import urlencode
 
 try:
     import json as simplejson

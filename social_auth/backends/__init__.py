@@ -9,8 +9,9 @@ Also the modules *must* define a BACKENDS dictionary with the backend name
 (which is used for URLs matching) and Auth class, otherwise it won't be
 enabled.
 """
-from urllib2 import Request, HTTPError
-from urllib import urlencode
+from urllib.request import Request
+from urllib.error import HTTPError
+from urllib.parse import urlencode
 
 from openid.consumer.consumer import Consumer, SUCCESS, CANCEL, FAILURE
 from openid.consumer.discover import DiscoveryFailure
@@ -245,7 +246,7 @@ class OAuthBackend(SocialAuthBackend):
                     continue
                 data[alias] = value
 
-            except (TypeError, ValueError), e:
+            except (TypeError, ValueError) as e:
                 raise BackendError('invalid entry: %s' % (entry,))
 
         return data
@@ -367,7 +368,7 @@ class BaseAuth(object):
             'backend': self.AUTH_BACKEND.name,
             'args': tuple(map(model_to_ctype, args)),
             'kwargs': dict((key, model_to_ctype(val))
-                                for key, val in kwargs.iteritems())
+                                for key, val in kwargs.items())
         }
 
     def from_session_dict(self, session_data, *args, **kwargs):
@@ -378,9 +379,9 @@ class BaseAuth(object):
 
         kwargs = kwargs.copy()
         saved_kwargs = dict((key, ctype_to_model(val))
-                            for key, val in session_data['kwargs'].iteritems())
+                            for key, val in session_data['kwargs'].items())
         saved_kwargs.update((key, val)
-                            for key, val in kwargs.iteritems())
+                            for key, val in kwargs.items())
         return (session_data['next'], args, saved_kwargs)
 
     def continue_pipeline(self, *args, **kwargs):
@@ -407,7 +408,7 @@ class BaseAuth(object):
         """
         backend_name = self.AUTH_BACKEND.name.upper().replace('-', '_')
         extra_arguments = setting(backend_name + '_AUTH_EXTRA_ARGUMENTS', {})
-        for key, value in extra_arguments.iteritems():
+        for key, value in extra_arguments.items():
             if key in self.data:
                 extra_arguments[key] = self.data[key]
             elif value:
@@ -483,7 +484,7 @@ class OpenIdAuth(BaseAuth):
 
     def continue_pipeline(self, *args, **kwargs):
         """Continue previous halted pipeline"""
-        response = self.consumer().complete(dict(self.data.items()),
+        response = self.consumer().complete(dict(list(self.data.items())),
                                             self.build_absolute_uri())
         kwargs.update({
             'auth': self,
@@ -494,7 +495,7 @@ class OpenIdAuth(BaseAuth):
 
     def auth_complete(self, *args, **kwargs):
         """Complete auth process"""
-        response = self.consumer().complete(dict(self.data.items()),
+        response = self.consumer().complete(dict(list(self.data.items())),
                                             self.build_absolute_uri())
         if not response:
             raise AuthException(self, 'OpenID relying party endpoint')
@@ -524,7 +525,7 @@ class OpenIdAuth(BaseAuth):
                 fetch_request.add(ax.AttrInfo(attr, alias=alias,
                                               required=True))
         else:
-            fetch_request = sreg.SRegRequest(optional=dict(SREG_ATTR).keys())
+            fetch_request = sreg.SRegRequest(optional=list(dict(SREG_ATTR).keys()))
         openid_request.addExtension(fetch_request)
 
         # Add PAPE Extension for if configured
@@ -570,7 +571,7 @@ class OpenIdAuth(BaseAuth):
                 self._openid_request = self.consumer().begin(
                     url_add_parameters(self.openid_url(), extra_params)
                 )
-            except DiscoveryFailure, err:
+            except DiscoveryFailure as err:
                 raise AuthException(self, 'OpenID discovery error: %s' % err)
         return self._openid_request
 
@@ -673,7 +674,7 @@ class ConsumerBasedOAuth(BaseOAuth):
 
         try:
             access_token = self.access_token(token)
-        except HTTPError, e:
+        except HTTPError as e:
             if e.code == 400:
                 raise AuthCanceled(self)
             else:
@@ -682,7 +683,7 @@ class ConsumerBasedOAuth(BaseOAuth):
 
     def do_auth(self, access_token, *args, **kwargs):
         """Finish the auth process once the access_token was retrieved"""
-        if isinstance(access_token, basestring):
+        if isinstance(access_token, str):
             access_token = Token.from_string(access_token)
 
         data = self.user_data(access_token)
@@ -851,7 +852,7 @@ class BaseOAuth2(BaseOAuth):
 
         try:
             response = simplejson.loads(dsa_urlopen(request).read())
-        except HTTPError, e:
+        except HTTPError as e:
             if e.code == 400:
                 raise AuthCanceled(self)
             else:

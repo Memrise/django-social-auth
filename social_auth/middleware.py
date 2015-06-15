@@ -50,7 +50,7 @@ class SocialAuthExceptionMiddleware(object):
                backend_setting(backend, 'SOCIAL_AUTH_RAISE_EXCEPTIONS')
 
     def get_message(self, request, exception):
-        return unicode(exception)
+        return str(exception)
 
     def get_redirect_uri(self, request, exception):
         if self.backend is not None:

@@ -9,7 +9,7 @@ By default account id, username and token expiration time are stored in
 extra_data field, check OAuthBackend class for details on how to extend it.
 """
 try:
-    from urlparse import parse_qs
+    from urllib.parse import parse_qs
     parse_qs  # placate pyflakes
 except ImportError:
     # fall back for Python 2.5

@@ -43,8 +43,8 @@ def social_auth_by_name_backends(request):
     google-oauth2 becomes google_oauth2 when referenced in templates.
     """
     def context_value():
-        keys = [key for key in get_backends().keys()]
-        accounts = dict(zip(keys, [None] * len(keys)))
+        keys = [key for key in list(get_backends().keys())]
+        accounts = dict(list(zip(keys, [None] * len(keys))))
         user = request.user
         if hasattr(user, 'is_authenticated') and user.is_authenticated():
             accounts.update((assoc.provider, assoc)
@@ -65,7 +65,7 @@ def backends_data(user):
     If user is not authenticated, then first list is empty, and there's no
     difference between the second and third lists.
     """
-    available = get_backends().keys()
+    available = list(get_backends().keys())
     values = {'associated': [],
               'not_associated': available,
               'backends': available}

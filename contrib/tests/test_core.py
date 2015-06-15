@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import urlparse
+import urllib.parse
 
 from selenium import webdriver
 
@@ -15,7 +15,7 @@ class BackendsTest(TestCase):
         self.driver.quit()
 
     def url(self, path):
-        return urlparse.urljoin(settings.TEST_DOMAIN, path)
+        return urllib.parse.urljoin(settings.TEST_DOMAIN, path)
 
     def test_twitter_backend(self):
         # We grab the Twitter testing user details from settings file
@@ -43,7 +43,7 @@ class BackendsTest(TestCase):
 
         # We check the user logged in
         heading = self.driver.find_element_by_id('heading')
-        if not heading.text == u'Logged in!':
+        if not heading.text == 'Logged in!':
             raise Exception('The user didn\'t log in')
 
         # Here we could test the User's fields
@@ -72,7 +72,7 @@ class BackendsTest(TestCase):
 
         # We check the user logged in
         heading = self.driver.find_element_by_id('heading')
-        if not heading.text == u'Logged in!':
+        if not heading.text == 'Logged in!':
             raise Exception('The user didn\'t log in')
 
         # Here we could test the User's fields
@@ -101,7 +101,7 @@ class BackendsTest(TestCase):
 
         # We check the user logged in
         heading = self.driver.find_element_by_id('heading')
-        if not heading.text == u'Logged in!':
+        if not heading.text == 'Logged in!':
             raise Exception('The user didn\'t log in')
 
         # Here we could test the User's fields
@@ -130,7 +130,7 @@ class BackendsTest(TestCase):
 
         # We check the user logged in
         heading = self.driver.find_element_by_id('heading')
-        if not heading.text == u'Logged in!':
+        if not heading.text == 'Logged in!':
             raise Exception('The user didn\'t log in')
 
         # Here we could test the User's fields
@@ -156,7 +156,7 @@ class BackendsTest(TestCase):
 
         # We check the user logged in
         heading = self.driver.find_element_by_id('heading')
-        if not heading.text == u'Logged in!':
+        if not heading.text == 'Logged in!':
             raise Exception('The user didn\'t log in')
 
         # Here we could test the User's fields
