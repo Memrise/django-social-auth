@@ -11,7 +11,7 @@ from collections import defaultdict
 
 from django.conf import settings
 from django.db.models import Model
-from django.db.models.loading import get_model
+from django.apps import apps
 from django.contrib.contenttypes.models import ContentType
 from django.utils.functional import SimpleLazyObject
 from importlib import import_module
@@ -248,7 +248,7 @@ def get_custom_user_model_for_migrations():
         # In case of having a proxy model defined as USER_MODEL
         # We use auth.User instead to prevent migration errors
         # Since proxy models aren't present in migrations
-        if get_model(*user_model.split('.'))._meta.proxy:
+        if apps.get_model(*user_model.split('.'))._meta.proxy:
             user_model = 'auth.User'
     return user_model
 
