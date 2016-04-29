@@ -27,7 +27,7 @@ except ImportError:
         from django.utils import simplejson
 
 from django.contrib.auth import authenticate
-from django.utils.importlib import import_module
+from importlib import import_module
 
 from social_auth.models import UserSocialAuth
 from social_auth.utils import setting, model_to_ctype, ctype_to_model, \
