@@ -345,7 +345,7 @@ class BaseAuth(object):
         self.request = request
         # Use request because some auth providers use POST urls with needed
         # GET parameters on it
-        self.data = request.REQUEST
+        self.data = request.POST if request.method == 'POST' else request.GET
         self.redirect = redirect
 
     def auth_url(self):

@@ -66,7 +66,8 @@ def associate_complete(request, backend, *args, **kwargs):
 def disconnect(request, backend, association_id=None):
     """Disconnects given backend from current logged in user."""
     backend.disconnect(request.user, association_id)
-    url = request.REQUEST.get(REDIRECT_FIELD_NAME, '') or \
+    data = request.POST if request.method == 'POST' else request.GET
+    url = data.get(REDIRECT_FIELD_NAME, '') or \
           backend_setting(backend, 'SOCIAL_AUTH_DISCONNECT_REDIRECT_URL') or \
           DEFAULT_REDIRECT
     return HttpResponseRedirect(url)
@@ -102,8 +103,9 @@ def auth_process(request, backend):
 def complete_process(request, backend, *args, **kwargs):
     """Authentication complete process"""
     # pop redirect value before the session is trashed on login()
+    data = request.POST if request.method == 'POST' else request.GET
     redirect_value = request.session.get(REDIRECT_FIELD_NAME, '') or \
-                     request.REQUEST.get(REDIRECT_FIELD_NAME, '')
+                     data.get(REDIRECT_FIELD_NAME, '')
     user = auth_complete(request, backend, *args, **kwargs)
 
     if isinstance(user, HttpResponse):
