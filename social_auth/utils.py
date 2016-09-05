@@ -208,8 +208,7 @@ def url_add_parameters(url, params):
     """Adds parameters to URL, parameter will be repeated if already present"""
     if params:
         fragments = list(urlparse.urlparse(url))
-        fragments[4] = urllib.urlencode(parse_qsl(fragments[4]) +
-                                        params.items())
+        fragments[4] = urllib.urlencode(urlparse.parse_qsl(fragments[4]) + params.items())
         url = urlparse.urlunparse(fragments)
     return url
 
