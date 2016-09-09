@@ -252,26 +252,6 @@ def get_custom_user_model_for_migrations():
     return user_model
 
 
-def custom_user_frozen_models(user_model):
-    migration_name = getattr(settings, 'INITIAL_CUSTOM_USER_MIGRATION',
-                             '0001_initial.py')
-    if user_model != 'auth.User':
-        from south.migration.base import Migrations
-        from south.exceptions import NoMigrations
-        from south.creator.freezer import freeze_apps
-        user_app, user_model = user_model.split('.')
-        try:
-            user_migrations = Migrations(user_app)
-        except NoMigrations:
-            extra_model = freeze_apps(user_app)
-        else:
-            initial_user_migration = user_migrations.migration(migration_name)
-            extra_model = initial_user_migration.migration_class().models
-    else:
-        extra_model = {}
-    return extra_model
-
-
 def module_member(name):
     mod, member = name.rsplit('.', 1)
     module = import_module(mod)
