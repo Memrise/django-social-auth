@@ -2,7 +2,8 @@
 import datetime
 
 from django.db import models
-
+from south.db import db
+from south.v2 import SchemaMigration
 from django.conf import settings
 from social_auth.utils import get_custom_user_model_for_migrations, \
     custom_user_frozen_models
@@ -17,8 +18,6 @@ ASSOCIATION_HANDLE_LENGTH = getattr(settings, 'SOCIAL_AUTH_ASSOCIATION_HANDLE_LE
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        from south.db import db
-        from south.v2 import SchemaMigration
         # Adding model 'UserSocialAuth'
         db.create_table('social_auth_usersocialauth', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
@@ -55,8 +54,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        from south.db import db
-        from south.v2 import SchemaMigration
         # Removing unique constraint on 'UserSocialAuth', fields ['provider', 'uid']
         db.delete_unique('social_auth_usersocialauth', ['provider', 'uid'])
 

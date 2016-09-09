@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.db import models
-
+from south.db import db
+from south.v2 import SchemaMigration
 from django.conf import settings
 from social_auth.utils import get_custom_user_model_for_migrations, \
     custom_user_frozen_models
@@ -17,9 +18,6 @@ ASSOCIATION_HANDLE_LENGTH = getattr(settings, 'SOCIAL_AUTH_ASSOCIATION_HANDLE_LE
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        from south.db import db
-        from south.v2 import SchemaMigration
-
         # Adding index on 'Nonce', fields ['timestamp']
         db.create_index('social_auth_nonce', ['timestamp'])
 
@@ -34,8 +32,6 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-        from south.db import db
-        from south.v2 import SchemaMigration
 
         # Removing unique constraint on 'Association', fields ['handle', 'server_url']
         db.delete_unique('social_auth_association', ['handle', 'server_url'])
