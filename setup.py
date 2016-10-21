@@ -7,12 +7,7 @@ from setuptools import setup
 version = __import__('social_auth').__version__
 
 LONG_DESCRIPTION = """
-Django Social Auth is an easy to setup social authentication/registration
-mechanism for Django projects.
-
-Crafted using base code from django-twitter-oauth_ and django-openid-auth_,
-implements a common interface to define new authentication providers from
-third parties.
+Backward-compatibility stubs for Python Social Auth.
 """
 
 
@@ -46,7 +41,8 @@ setup(name='django-social-auth',
       long_description=long_description(),
       install_requires=['Django>=1.2.5',
                         'oauth2>=1.5.167',
-                        'python-openid>=2.2'],
+                        'python-openid>=2.2',
+                        'python-social-auth>=0.2.21'],
       classifiers=['Framework :: Django',
                    'Development Status :: 4 - Beta',
                    'Topic :: Internet',
